@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f3f2ec">
+  <title>Thermal Field | Image Inspector</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Thermal Field home">
+      <span class="brand-mark" aria-hidden="true">T</span>
+      <span>THERMAL FIELD <small>IMAGE INSPECTOR</small></span>
+    </a>
+    <div class="topbar-right">
+      <span class="privacy-note"><span class="privacy-dot"></span> Files stay on this device</span>
+      <button class="button button-dark" id="open-file" type="button"><span aria-hidden="true">＋</span> Open image</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="intro-row">
+      <div>
+        <p class="eyebrow">FIELDWORK / IMAGE REVIEW</p>
+        <h1>Read the details<br><span>behind the image.</span></h1>
+      </div>
+      <p class="intro-copy">Inspect drone-captured thermal imagery, embedded camera data, and flight coordinates in one place.</p>
+    </section>
+
+    <section class="inspector" aria-label="Thermal image inspector">
+      <aside class="sidebar">
+        <div class="section-heading"><span>01</span><h2>Image source</h2></div>
+        <button class="dropzone" id="dropzone" type="button" aria-label="Choose or drop an image">
+          <span class="upload-glyph" aria-hidden="true">↥</span>
+          <strong>Drop an image here</strong>
+          <span>or browse your device</span>
+          <small>JPEG · TIFF · PNG</small>
+        </button>
+        <input id="file-input" type="file" accept="image/jpeg,image/png,image/tiff,.tif,.tiff" hidden>
+
+        <div class="file-summary" id="file-summary" hidden>
+          <span class="file-type" aria-hidden="true">IMG</span>
+          <div class="file-copy"><strong id="file-name">No image selected</strong><span id="file-size"></span></div>
+          <button class="icon-button" id="clear-file" type="button" aria-label="Remove image" title="Remove image">×</button>
+        </div>
+
+        <div class="sidebar-rule"></div>
+        <div class="section-heading"><span>02</span><h2>Flight position</h2></div>
+        <div class="position-summary" id="position-summary">
+          <span class="position-icon" aria-hidden="true">⌖</span>
+          <div><strong id="position-status">No coordinates found</strong><span id="position-coords">GPS data will appear here</span></div>
+        </div>
+        <a class="map-link" id="external-map" href="#" target="_blank" rel="noreferrer" hidden>Open in OpenStreetMap <span aria-hidden="true">↗</span></a>
+
+        <div class="sidebar-note">
+          <span class="note-mark" aria-hidden="true">i</span>
+          <p>Temperature readings are available only when the image contains compatible radiometric data. Standard thermal previews may not include them.</p>
+        </div>
+      </aside>
+
+      <div class="main-panel">
+        <div class="preview-panel">
+          <div class="panel-toolbar">
+            <div><span class="live-dot"></span><span id="preview-label">IMAGE PREVIEW</span></div>
+            <span id="image-dimensions">AWAITING IMAGE</span>
+          </div>
+          <div class="preview-stage" id="preview-stage">
+            <div class="empty-state" id="empty-state">
+              <div class="crosshair" aria-hidden="true"><span></span></div>
+              <strong>Your image will appear here</strong>
+              <span>Choose a drone image to begin inspection</span>
+            </div>
+            <img id="image-preview" alt="Selected drone thermal image" hidden>
+            <canvas id="tiff-preview" hidden></canvas>
+          </div>
+        </div>
+
+        <div class="data-grid">
+          <section class="metadata-panel">
+            <div class="panel-title"><div><span class="panel-index">03</span><h2>Embedded metadata</h2></div><span class="metadata-count" id="metadata-count">0 FIELDS</span></div>
+            <div class="metadata-empty" id="metadata-empty">Image metadata will be listed here after selection.</div>
+            <dl class="metadata-list" id="metadata-list"></dl>
+          </section>
+          <section class="map-panel">
+            <div class="panel-title"><div><span class="panel-index">04</span><h2>Location</h2></div><span class="map-tag">OPENSTREETMAP</span></div>
+            <div class="map-wrap">
+              <div id="map" aria-label="Map showing image GPS coordinates"></div>
+              <div class="map-empty" id="map-empty"><span aria-hidden="true">⌖</span><strong>Location unavailable</strong><small>Embedded GPS coordinates are required</small></div>
+            </div>
+            <div class="map-caption"><span id="map-caption-text">No position attached to this image</span><span class="north-mark" aria-label="North">N ↑</span></div>
+          </section>
+        </div>
+      </div>
+    </section>
+    <footer><span>THERMAL FIELD / LOCAL IMAGE INSPECTOR</span><span>Metadata depends on the camera and export format.</span></footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/full.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
